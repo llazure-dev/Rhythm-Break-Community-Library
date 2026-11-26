@@ -1,0 +1,11 @@
+services:
+  rhythmbreak-library:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      MAX_UPLOAD_BYTES: "314572800"
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped

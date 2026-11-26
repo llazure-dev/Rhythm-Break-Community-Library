@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08090b">
+  <meta name="description" content="Discover, share and download community-made RhythmBreak music packs.">
+  <title>Community Library — RhythmBreak</title>
+  <link rel="icon" type="image/png" href="/assets/rhythm-break-logo.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="RhythmBreak Community Library home">
+        <img src="/assets/rhythm-break-logo.png" alt="RhythmBreak" class="brand-logo">
+        <span class="brand-divider"></span>
+        <span class="brand-section"><small>COMMUNITY</small><b>LIBRARY</b></span>
+      </a>
+      <div class="topbar-right">
+        <div class="live-indicator"><i></i><span>OPEN COMMUNITY</span></div>
+        <button class="publish-button" id="open-upload" type="button"><span class="publish-plus">＋</span> PUBLISH MUSIC</button>
+      </div>
+    </header>
+
+    <main class="library-screen">
+      <section class="library-intro">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-line"></span> RHYTHMBREAK / MUSIC SHARING</div>
+          <h1>Community <em>Library</em></h1>
+          <p>Discover tracks and playlists shared by RhythmBreak players.</p>
+        </div>
+        <div class="library-stats" aria-live="polite">
+          <div><b id="stat-packs">—</b><span>PACKS</span></div>
+          <div><b id="stat-tracks">—</b><span>TRACKS</span></div>
+          <div><b id="stat-downloads">—</b><span>DOWNLOADS</span></div>
+        </div>
+      </section>
+
+      <section class="library-layout" aria-label="Community music library">
+        <aside class="details-panel" id="details-panel">
+          <div class="details-empty">
+            <div class="empty-glyph">RB<span>♫</span></div>
+            <small>COMMUNITY LIBRARY</small>
+            <h2>Choose a track<br>to explore</h2>
+            <p>Select a song or playlist from the library to see its artwork, details and download.</p>
+          </div>
+        </aside>
+
+        <section class="browser-panel">
+          <div class="browser-topline">
+            <div class="tabs" role="tablist" aria-label="Library filters">
+              <button class="tab active" type="button" role="tab" aria-selected="true" data-filter="all">ALL</button>
+              <button class="tab" type="button" role="tab" aria-selected="false" data-filter="song">TRACKS</button>
+              <button class="tab" type="button" role="tab" aria-selected="false" data-filter="playlist">PLAYLISTS</button>
+            </div>
+            <div class="browser-tools">
+              <label class="search-box" for="search-input">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.7"></circle><path d="m16 16 5 5"></path></svg>
+                <input id="search-input" type="search" placeholder="Search music or creator" autocomplete="off">
+                <kbd>/</kbd>
+              </label>
+              <button class="refresh-button" id="refresh-button" type="button" aria-label="Refresh library" title="Refresh library">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"></path><path d="M5.6 9A7 7 0 0 1 18 6.5L20 12M4 12l2 5.5A7 7 0 0 0 18.4 15"></path></svg>
+              </button>
+            </div>
+          </div>
+          <div class="results-heading"><span id="results-label">LATEST SHARES</span><span id="results-count">LOADING…</span></div>
+          <div class="track-list" id="track-list" aria-live="polite">
+            <div class="loading-state"><span class="loading-ring"></span><b>CONNECTING TO THE COMMUNITY</b><small>Loading shared music…</small></div>
+          </div>
+          <div class="load-more-wrap"><button class="load-more" id="load-more" type="button" hidden>LOAD MORE <span>↓</span></button></div>
+        </section>
+      </section>
+      <footer class="page-footer"><span>RHYTHMBREAK COMMUNITY LIBRARY</span><span>SHARE MUSIC. PLAY TOGETHER.</span></footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="upload-modal" hidden>
+    <section class="upload-modal" role="dialog" aria-modal="true" aria-labelledby="upload-title">
+      <div class="modal-topline"><span>COMMUNITY / NEW SHARE</span><button class="modal-close" id="close-upload" type="button" aria-label="Close">×</button></div>
+      <div class="modal-heading"><div class="upload-icon">♫</div><div><h2 id="upload-title">Publish music</h2><p>Share a RhythmBreak pack with everyone.</p></div></div>
+      <form id="upload-form">
+        <label class="field-label" for="publisher-input">PUBLISHED BY <span>REQUIRED</span></label>
+        <input class="text-input" id="publisher-input" name="publisher" type="text" minlength="2" maxlength="40" placeholder="Your name or creator alias" required autocomplete="nickname">
+        <label class="field-label file-label" for="pack-input">RHYTHMBREAK PACK <span>.RBPACK ONLY</span></label>
+        <label class="file-drop" id="file-drop" for="pack-input">
+          <input id="pack-input" name="pack" type="file" accept=".rbpack,application/json" required>
+          <span class="file-drop-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m-5 5 5-5 5 5"></path><path d="M4 16v4h16v-4"></path></svg></span>
+          <b id="file-drop-title">Choose your .rbpack file</b>
+          <small id="file-drop-subtitle">Click to browse your device</small>
+        </label>
+        <div class="auto-note"><span class="auto-check">✓</span><p><b>PACK DETAILS ARE AUTOMATIC</b><br>Track names, music creators, icons, banners and playlist contents are read directly from the .rbpack. No need to fill them in.</p></div>
+        <div class="upload-progress" id="upload-progress" hidden><div class="progress-copy"><span id="progress-message">UPLOADING PACK</span><b id="progress-percent">0%</b></div><div class="progress-track"><i id="progress-bar"></i></div></div>
+        <p class="form-error" id="form-error" role="alert" hidden></p>
+        <button class="submit-publish" id="submit-publish" type="submit">PUBLISH TO THE LIBRARY <span>↗</span></button>
+        <p class="no-account-note">NO ACCOUNT OR LOGIN REQUIRED · PUBLIC TO EVERYONE</p>
+      </form>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
